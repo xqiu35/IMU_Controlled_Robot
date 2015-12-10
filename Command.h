@@ -1,17 +1,30 @@
 #pragma once
 #include <cstdint>
 
+/** Command class.
+ *  Author Xiaofei Qiu
+ */
 class Command
 {
 public:
-    Command():_speed(0){}
+    Command();
+    
     Command(const Command&);
+    
     virtual ~Command(){}
+    
+    /** Uses vitual function for dynamic binding */
     virtual void execute() = 0; 
-    void setSpeed(const std::int8_t& sp){_speed = sp;}
+    
+    /** Sets Speed, if is_negative is true, then speed will be negative. otherwaise, speed is posotive */
+    void setSpeed(const std::int8_t& sp, const std::int8_t& is_negative = 0);
     
 protected:
-    float _speed;
+    /** Motor speed */
+    float _SPEED;
+    
+    /** Direction of the motor speed */
+    bool  _IS_NEGATIVE;
 };
 
 class LedCommand : public Command
@@ -35,17 +48,10 @@ public:
     virtual void execute();
 };
 
-class MoveForwardCommand : public Command
+class GoStraightCommand : public Command
 {
 public:
-    MoveForwardCommand(){}
-    virtual void execute();
-};
-
-class MoveBackwardCommand : public Command
-{
-public:
-    MoveBackwardCommand(){}
+    GoStraightCommand(){}
     virtual void execute();
 };
 
